@@ -1,0 +1,53 @@
+{
+  "name": "saeven/zf3-circlical-behat-fixtures",
+  "description": "Doctrine & Nelmio/Alice fixtures for Zend Framework 3 and Behat",
+  "type": "library",
+  "license": "MPL-2.0",
+  "homepage": "https://github.com/Saeven/zf3-circlical-behat-fixtures",
+  "keywords": [
+    "nelmio",
+    "alice",
+    "zend framework",
+    "zf3",
+    "behat",
+    "fixtures",
+    "doctrine"
+  ],
+  "authors": [
+    {
+      "name": "Alexandre Lemaire",
+      "email": "alemaire@circlical.com",
+      "homepage": "http://circlical.com/",
+      "role": "Paper Stapler"
+    }
+  ],
+  "require": {
+    "php": "^7.4.0",
+    "zendframework/zend-servicemanager": "^3.0",
+    "zendframework/zend-mvc": "^3.0",
+    "zendframework/zend-loader": "2.6.*",
+    "zendframework/zend-modulemanager": "2.8.*",
+    "zendframework/zend-eventmanager": "3.2.*",
+    "doctrine/common": "2.11.0",
+    "doctrine/orm": "^2.5||2.6.*",
+    "doctrine/persistence": "@stable",
+    "doctrine/doctrine-orm-module": "^1.1||2.1.*",
+    "doctrine/doctrine-module": "^1.2||2.1.*",
+    "doctrine/data-fixtures": "@stable",
+    "nelmio/alice": "@stable",
+    "behat/behat": "3.*@stable",
+    "symfony/console": "^5.0.0"
+  },
+  "require-dev": {
+    "phpspec/phpspec": "6.1.*",
+    "friends-of-phpspec/phpspec-code-coverage": "@stable",
+    "codacy/coverage": "^1.0"
+  },
+  "suggest": {
+  },
+  "autoload": {
+    "psr-4": {
+      "CirclicalBehatFixtures\\": "src/CirclicalBehatFixtures"
+    }
+  }
+}
