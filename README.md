@@ -9,7 +9,7 @@ Feature: I can define fixtures from within my tests
   I want to load fixtures directly from within my test context
 
   Scenario: Test loading a new fixture
-    Given Fixture "Application\user" is loaded
+    Given Fixture "Application/user" is loaded
 ```
 
 Highlights:
