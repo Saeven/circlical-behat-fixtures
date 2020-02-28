@@ -30,8 +30,9 @@ class DatabaseContext implements Context
      */
     public function loadDoctrineFixture(string $fixtureName): void
     {
+        $append = '';
         if ($this->appendFixture) {
-            $append = "--append";
+            $append = '--append';
             $this->appendFixture = true;
         }
         shell_exec(sprintf('php public/index.php orm:fixtures:load --fixture=%s %s', $fixtureName, $append));
