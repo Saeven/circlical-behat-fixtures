@@ -36,7 +36,7 @@
     "doctrine/data-fixtures": "@stable",
     "nelmio/alice": "@stable",
     "behat/behat": "3.*@stable",
-    "symfony/console": "^5.0.0"
+    "symfony/console": "*"
   },
   "require-dev": {
     "phpspec/phpspec": "6.1.*",
