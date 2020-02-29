@@ -51,7 +51,8 @@ EOT
             )
             ->addOption('fixture', null, InputOption::VALUE_REQUIRED, 'The fixture file that we are loading, push in the fixture ID (see README.md)')
             ->addOption('append', null, InputOption::VALUE_NONE, 'Append the data fixtures instead of deleting all data from the database first.')
-            ->addOption('purge-with-truncate', null, InputOption::VALUE_NONE, 'Purge data by using a database-level TRUNCATE statement');
+            ->addOption('purge-with-truncate', null, InputOption::VALUE_NONE, 'Purge data by using a database-level TRUNCATE statement')
+            ->addOption('no-auto-increment', null, InputOption::VALUE_NONE, 'Disable auto-increment values when importing fixtures.');
 
     }
 
@@ -67,7 +68,13 @@ EOT
         $purger->setPurgeMode($purgeMethod);
 
         $loader = new FixtureLoader();
-        $loader->addFixture(AliceFixtureLoader::createFromFilepath($input->getOption('fixture'), $output));
+        $loader->addFixture(
+            AliceFixtureLoader::createFromFilepath(
+                $input->getOption('fixture'),
+                $input->getOption('no-auto-increment'),
+                $output
+            )
+        );
 
         $executor = new ORMExecutor($this->entityManager, $purger);
         $executor->setLogger(static function ($message) use ($output) {

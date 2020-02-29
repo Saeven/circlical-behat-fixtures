@@ -4,9 +4,6 @@ namespace CirclicalBehatFixtures\Behat;
 
 use Behat\Behat\Context\Context;
 
-/**
- * Defines application features from the specific context.
- */
 class DatabaseContext implements Context
 {
     private $autoloader;
@@ -30,11 +27,37 @@ class DatabaseContext implements Context
      */
     public function loadDoctrineFixture(string $fixtureName): void
     {
+        shell_exec(
+            sprintf(
+                'php public/index.php orm:fixtures:load --fixture=%s %s',
+                $fixtureName,
+                $this->getAppendParameter()
+            )
+        );
+    }
+
+    /**
+     * @Given Fixture :name is loaded without auto-increment
+     */
+    public function loadDoctrineFixtureWithoutAutoincrement(string $fixtureName): void
+    {
+        shell_exec(
+            sprintf(
+                'php public/index.php orm:fixtures:load --no-auto-increment --fixture=%s %s',
+                $fixtureName,
+                $this->getAppendParameter()
+            )
+        );
+    }
+
+    private function getAppendParameter(): string
+    {
         $append = '';
         if ($this->appendFixture) {
             $append = '--append';
             $this->appendFixture = true;
         }
-        shell_exec(sprintf('php public/index.php orm:fixtures:load --fixture=%s %s', $fixtureName, $append));
+
+        return $append;
     }
 }
