@@ -25,7 +25,7 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
 
     public function getConfig(): array
     {
-        return include __DIR__ . '/config/module.config.php';
+        return include __DIR__ . '/../../config/module.config.php';
     }
 
     public function init(ModuleManager $moduleManager)
