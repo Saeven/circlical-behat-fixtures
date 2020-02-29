@@ -10,7 +10,11 @@ Feature: I can define fixtures from within my tests
 
   Scenario: Test loading a new fixture
     Given Fixture "Application/user" is loaded
+    Given Fixture "Application/user" is loaded without auto-increment
 ```
+
+> Disabling auto-increment modifies the class metadata before Doctrine saves the fixture.  I realize that auto-increment in databases shouldn't have significant
+> meaning, but in the wild, this happens very often.  I've added this second command, but use it responsibly!  
 
 Highlights:
 
