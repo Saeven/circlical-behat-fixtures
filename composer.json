@@ -46,8 +46,8 @@
   "suggest": {
   },
   "autoload": {
-    "psr-4": {
-      "CirclicalBehatFixtures\\": "src/CirclicalBehatFixtures"
+    "psr-0": {
+      "CirclicalBehatFixtures\\": "src/"
     }
   }
 }
