@@ -2,11 +2,12 @@
 
 namespace CirclicalBehatFixtures\Loader;
 
+use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Nelmio\Alice\Loader\NativeLoader;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class AliceFixtureLoader implements \Doctrine\Common\DataFixtures\FixtureInterface
+final class AliceFixtureLoader implements FixtureInterface
 {
     /** @var NativeLoader */
     private static $nelmio;
