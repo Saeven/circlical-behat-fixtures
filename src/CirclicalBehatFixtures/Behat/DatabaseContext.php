@@ -10,6 +10,8 @@ class DatabaseContext implements Context
 
     private bool $appendFixture;
 
+    private string $commandPrefix;
+
     public function __construct()
     {
         $this->appendFixture = false;
@@ -18,6 +20,12 @@ class DatabaseContext implements Context
         if (!file_exists($vendorFile)) {
             throw new \Exception("vendor/autoload.php could not be found.  Did you 'composer install'?");
         }
+
+        $commandPrefixFile = getcwd() . DIRECTORY_SEPARATOR . 'circlical-fixtures-cmd-prefix';
+        if (file_exists($commandPrefixFile)) {
+            $this->commandPrefix = trim(file_get_contents($commandPrefixFile)) . ' ';
+        }
+
         $this->autoloader = include $vendorFile;
     }
 
@@ -29,7 +37,8 @@ class DatabaseContext implements Context
     {
         shell_exec(
             sprintf(
-                'php public/index.php orm:fixtures:load --fixture=%s %s',
+                '%sphp public/index.php orm:fixtures:load --fixture=%s %s',
+                $this->commandPrefix ?? '',
                 $fixtureName,
                 $this->getAppendParameter()
             )
