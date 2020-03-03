@@ -2,6 +2,7 @@
 
 namespace CirclicalBehatFixtures\Command;
 
+use CirclicalBehatFixtures\Instantiator\PrivacySwitchInstantiator;
 use Doctrine\ORM\EntityManager;
 use CirclicalBehatFixtures\Loader\AliceFixtureLoader;
 use Symfony\Component\Console\Command\Command;
@@ -17,12 +18,16 @@ class FixturesLoadCommand extends Command
 {
     private array $excludedTables;
 
+    private array $automaticSetters;
+
     private EntityManager $entityManager;
 
-    public function __construct(EntityManager $entityManager, array $excludedTables)
+    public function __construct(EntityManager $entityManager, array $excludedTables, array $automaticSetters)
     {
         parent::__construct();
+
         $this->excludedTables = $excludedTables;
+        $this->automaticSetters = $automaticSetters;
         $this->entityManager = $entityManager;
     }
 
@@ -66,6 +71,8 @@ EOT
         $purger = new ORMPurger($this->entityManager, $this->excludedTables);
         $purgeMethod = $input->getOption('purge-with-truncate') ? ORMPurger::PURGE_MODE_TRUNCATE : ORMPurger::PURGE_MODE_DELETE;
         $purger->setPurgeMode($purgeMethod);
+
+        PrivacySwitchInstantiator::$automaticSetters = $this->automaticSetters;
 
         $loader = new FixtureLoader();
         $loader->addFixture(

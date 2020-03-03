@@ -19,7 +19,7 @@ final class AliceFixtureLoader implements FixtureInterface
     public static function createFromFilepath(string $file, bool $disableAutoIncrement, OutputInterface $output): AliceFixtureLoader
     {
         if (!static::$nelmio) {
-            static::$nelmio = new NativeLoader();
+            static::$nelmio = new ConfigurableLoader();
             static::$output = $output;
         }
 
@@ -30,9 +30,10 @@ final class AliceFixtureLoader implements FixtureInterface
 
     private bool $disableAutoIncrement;
 
-    private function __construct(string $file)
+    private function __construct(string $file, bool $disableAutoIncrement)
     {
         $this->fixtureFile = $file;
+        $this->disableAutoIncrement = $disableAutoIncrement;
     }
 
     public function load(ObjectManager $manager)
