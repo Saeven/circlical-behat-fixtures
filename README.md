@@ -70,3 +70,19 @@ e.g.
 `Given Fixture "Application/user" is loaded`
 
 You can stack these as you need.  The first one in a feature will auto-purge, the subsequent ones will append.
+
+## Container Support
+
+If you need to import the fixture in a Docker command for example, perhaps as a part of a CI/CD chain, you'll need to change where the fixture gets loaded.  In short, instead of this command:
+
+    php public/index.php orm:fixtures:load --fixture=Application/orders
+
+You might need to run something like this command:
+
+    /usr/local/bin/docker container exec -i $(docker-compose ps -q php) php public/index.php orm:fixtures:load --fixture=Application/orders
+
+You can achieve this by outputting a prefix into a file with name `circlical-fixtures-cmd-prefix`, e.g. in your CI/CD scripts:
+
+    echo "/usr/local/bin/docker container exec -i $(docker-compose ps -q php)" > ./circlical-fixtures-cmd-prefix
+    
+It becomes your responsibility to create (at startup) and delete (at tear-down) this file in your CI chain configuration.
