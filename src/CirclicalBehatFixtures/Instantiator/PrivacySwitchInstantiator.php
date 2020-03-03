@@ -22,7 +22,7 @@ class PrivacySwitchInstantiator implements PropertyHydratorInterface
     {
         $objectClass = get_class($object->getInstance());
         $setterName = 'set' . $this->camelize($property->getName());
-        if (in_array($object, static::$automaticSetters, true)) {
+        if (in_array($objectClass, static::$automaticSetters, true)) {
             $reflectionClass = new \ReflectionClass($object->getInstance());
             try {
                 // if there's no camel case setter, than fall back onto reflection.  If someone conversely declares a private setter, it's their problem.
