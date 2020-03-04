@@ -52,7 +52,8 @@ class DatabaseContext implements Context
     {
         shell_exec(
             sprintf(
-                'php public/index.php orm:fixtures:load --no-auto-increment --fixture=%s %s',
+                '%sphp public/index.php orm:fixtures:load --no-auto-increment --fixture=%s %s',
+                $this->commandPrefix ?? '',
                 $fixtureName,
                 $this->getAppendParameter()
             )
