@@ -29,7 +29,6 @@ class DatabaseContext implements Context
         $this->autoloader = include $vendorFile;
     }
 
-
     /**
      * @Given Fixture :name is loaded
      */
@@ -62,12 +61,12 @@ class DatabaseContext implements Context
 
     private function getAppendParameter(): string
     {
-        $append = '';
+        $argument = '';
         if ($this->appendFixture) {
-            $append = '--append';
-            $this->appendFixture = true;
+            $argument = '--append';
         }
+        $this->appendFixture = true;
 
-        return $append;
+        return $argument;
     }
 }
