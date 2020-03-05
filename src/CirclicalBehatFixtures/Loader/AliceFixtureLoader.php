@@ -70,16 +70,26 @@ final class AliceFixtureLoader implements FixtureInterface
                 if ($identifiersSet) {
                     $originalGeneratorType = $metadata->generatorType;
                     $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
-                    static::$output->writeln(sprintf('<fg=cyan;options=bold>         └ disabling autogen for object %s with %s of %s</>', $metadata->getName(), $identifiersSet[0], $identifiersSet[1]));
+                    static::$output->writeln(
+                        sprintf(
+                            '<fg=cyan;options=bold>         └ disabling autogen for object %s with %s of %s</>',
+                            $metadata->getName(),
+                            $identifiersSet[0],
+                            $identifiersSet[1]
+                        )
+                    );
                 }
 
                 $manager->persist($object);
-                $manager->flush($object);
+                $manager->flush();
 
                 if (null !== $originalGeneratorType) {
                     $metadata->setIdGeneratorType($originalGeneratorType);
                 }
+                continue;
             }
+            $manager->persist($object);
+            $manager->flush();
         }
     }
 }
