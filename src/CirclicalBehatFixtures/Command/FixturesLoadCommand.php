@@ -41,23 +41,34 @@ class FixturesLoadCommand extends Command
                 <<<EOT
 The command loads data from fixtures files into database for default <info>orm_default</info> connection:
 
-  <info>./app/console doctrine:fixtures:load --fixture Application/user.yml</info>
+  <info>./app/console doctrine:fixtures:load --fixtures Application/user</info>
 
 If you want to append the fixtures instead of flushing the database first you can use the <info>--append</info> option:
 
-  <info>./app/console doctrine:fixtures:load --append --fixture Application/user.yml</info>
+  <info>./app/console doctrine:fixtures:load --append --fixtures Application/user</info>
 
-By default Doctrine Data Fixtures uses DELETE statements to drop the existing rows from
-the database. If you want to use a TRUNCATE statement instead you can use the <info>--purge-with-truncate</info> flag:
+By default Doctrine Data Fixtures uses DELETE statements to drop the existing rows from the database. 
+If you want to use a TRUNCATE statement instead you can use the <info>--purge-with-truncate</info> flag:
 
-  <info>./app/console doctrine:fixtures:load --purge-with-truncate --fixture Application/user.yml</info>
+  <info>./app/console doctrine:fixtures:load --purge-with-truncate --fixtures Application/user</info>
+  
+You can load a batch of fixtures, by pushing in a CSV of fixtures as fixtures parameter:
+
+  <info>./app/console doctrine:fixtures:load --append --fixtures Application/user</info>
+  
+Lastly, you can specify that autoincrement should be disabled for a specific fixture by prefixing the fixture with a hash:
+
+  <info>./app/console doctrine:fixtures:load --append --fixtures #Application/user</info>
+  
+In a batch, the hash's scope is limited to the fixture against which it is prepended:
+
+  <info>./app/console doctrine:fixtures:load --append --fixtures #Application/user,Application/other</info>
   
 EOT
             )
-            ->addOption('fixture', null, InputOption::VALUE_REQUIRED, 'The fixture file that we are loading, push in the fixture ID (see README.md)')
+            ->addOption('fixtures', null, InputOption::VALUE_REQUIRED, 'The fixture files that we are loading, push in the fixture ID or a CSV of fixture IDs (see README.md)')
             ->addOption('append', null, InputOption::VALUE_NONE, 'Append the data fixtures instead of deleting all data from the database first.')
-            ->addOption('purge-with-truncate', null, InputOption::VALUE_NONE, 'Purge data by using a database-level TRUNCATE statement')
-            ->addOption('no-auto-increment', null, InputOption::VALUE_NONE, 'Disable auto-increment values when importing fixtures.');
+            ->addOption('purge-with-truncate', null, InputOption::VALUE_NONE, 'Purge data by using a database-level TRUNCATE statement');
 
     }
 
@@ -75,13 +86,18 @@ EOT
         PrivacySwitchInstantiator::$automaticSetters = $this->automaticSetters;
 
         $loader = new FixtureLoader();
-        $loader->addFixture(
-            AliceFixtureLoader::createFromFilepath(
-                $input->getOption('fixture'),
-                $input->getOption('no-auto-increment'),
-                $output
-            )
-        );
+
+        foreach (explode(',', $input->getOption('fixtures')) as $fixtureId) {
+            $disableAutoIncrement = 0;
+            $fixtureId = preg_replace('/#/', '', $fixtureId, -1, $disableAutoIncrement);
+            $loader->addFixture(
+                AliceFixtureLoader::createFromFilepath(
+                    $fixtureId,
+                    $disableAutoIncrement,
+                    $output
+                )
+            );
+        }
 
         $executor = new ORMExecutor($this->entityManager, $purger);
         $executor->setLogger(static function ($message) use ($output) {

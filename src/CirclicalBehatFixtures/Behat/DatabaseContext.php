@@ -6,8 +6,6 @@ use Behat\Behat\Context\Context;
 
 class DatabaseContext implements Context
 {
-    private $autoloader;
-
     private bool $appendFixture;
 
     private string $commandPrefix;
@@ -25,8 +23,6 @@ class DatabaseContext implements Context
         if (file_exists($commandPrefixFile)) {
             $this->commandPrefix = trim(file_get_contents($commandPrefixFile)) . ' ';
         }
-
-        $this->autoloader = include $vendorFile;
     }
 
     /**
@@ -36,7 +32,7 @@ class DatabaseContext implements Context
     {
         shell_exec(
             sprintf(
-                '%sphp public/index.php orm:fixtures:load --fixture=%s %s',
+                '%sphp public/index.php orm:fixtures:load --fixtures=%s %s',
                 $this->commandPrefix ?? '',
                 $fixtureName,
                 $this->getAppendParameter()
@@ -45,15 +41,15 @@ class DatabaseContext implements Context
     }
 
     /**
-     * @Given Fixture :name is loaded without auto-increment
+     * @Given Fixtures :csv are loaded
      */
-    public function loadDoctrineFixtureWithoutAutoincrement(string $fixtureName): void
+    public function loadDoctrineFixtureBatch(string $csv): void
     {
         shell_exec(
             sprintf(
-                '%sphp public/index.php orm:fixtures:load --no-auto-increment --fixture=%s %s',
+                '%sphp public/index.php orm:fixtures:load --fixtures=%s %s',
                 $this->commandPrefix ?? '',
-                $fixtureName,
+                str_replace(' ', '', $csv),
                 $this->getAppendParameter()
             )
         );
