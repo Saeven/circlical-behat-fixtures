@@ -9,7 +9,6 @@ use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\ModuleManager;
 use CirclicalBehatFixtures\Command\FixturesLoadCommand;
 
-
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface
 {
     public function getAutoloaderConfig(): array

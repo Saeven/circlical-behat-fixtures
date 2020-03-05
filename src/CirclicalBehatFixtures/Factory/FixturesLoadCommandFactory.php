@@ -16,8 +16,6 @@ class FixturesLoadCommandFactory implements FactoryInterface
         return new FixturesLoadCommand(
             $container->get(EntityManager::class),
             $config['circlical-fixtures']['excluded-tables'] ?? [],
-            $config['circlical-fixtures']['auto-setters'] ?? []
         );
     }
 }
-

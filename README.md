@@ -11,11 +11,11 @@ Feature: I can define fixtures from within my tests
   Scenario: Test loading a new fixture
     Given fixture "Application/user" is loaded
     Given fixture "#Application/user" is loaded
-    Given fixtures "Application/user, #Billing/invoices" are loaded
+    Given fixtures "Application/user, Billing/invoices" are loaded
 ```
 
-> Disabling auto-increment modifies the class metadata before Doctrine saves the fixture.  I realize that auto-increment in databases shouldn't have significant
-> meaning, but in the wild, this happens very often.  I've added this second command, but use it responsibly!  
+> This package adds a behavior to alice, by way of automatically falling back onto reflection
+> when a setter for a fixture-defined value is not available, and that value is nontrivial.
 
 Highlights:
 
@@ -28,7 +28,7 @@ Highlights:
 
 ## Installation
 
-- Add `CirclicalBehatFixtures` to your application.config.php
+- Composer install, then add `CirclicalBehatFixtures` to your application.config.php
 
 ## Wiring it into Behat
 
@@ -72,15 +72,6 @@ e.g.
 
 You can stack these as you need.  The first one in a feature will auto-purge, the subsequent ones will append.
 
-You can also instruct the scenario to disable auto-incrementing IDs by prefixing your fixture with a hash:
-
-`Given Fixture "#Application/user" is loaded`
-
-This also works in a multi-fixture situation:
-
-`Given Fixtures "Application/users, #Application/widgets" are loaded`
-
-In the case depicted above, only the second fixture would be loaded without auto-increment.
 
 ## Container Support
 

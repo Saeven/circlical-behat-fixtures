@@ -13,12 +13,6 @@ class DatabaseContext implements Context
     public function __construct()
     {
         $this->appendFixture = false;
-        $vendorFile = getcwd() . '/vendor/autoload.php';
-
-        if (!file_exists($vendorFile)) {
-            throw new \Exception("vendor/autoload.php could not be found.  Did you 'composer install'?");
-        }
-
         $commandPrefixFile = getcwd() . DIRECTORY_SEPARATOR . 'circlical-fixtures-cmd-prefix';
         if (file_exists($commandPrefixFile)) {
             $this->commandPrefix = trim(file_get_contents($commandPrefixFile)) . ' ';

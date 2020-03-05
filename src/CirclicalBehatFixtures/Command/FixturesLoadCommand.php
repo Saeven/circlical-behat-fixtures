@@ -18,16 +18,13 @@ class FixturesLoadCommand extends Command
 {
     private array $excludedTables;
 
-    private array $automaticSetters;
-
     private EntityManager $entityManager;
 
-    public function __construct(EntityManager $entityManager, array $excludedTables, array $automaticSetters)
+    public function __construct(EntityManager $entityManager, array $excludedTables)
     {
         parent::__construct();
 
         $this->excludedTables = $excludedTables;
-        $this->automaticSetters = $automaticSetters;
         $this->entityManager = $entityManager;
     }
 
@@ -83,20 +80,13 @@ EOT
         $purgeMethod = $input->getOption('purge-with-truncate') ? ORMPurger::PURGE_MODE_TRUNCATE : ORMPurger::PURGE_MODE_DELETE;
         $purger->setPurgeMode($purgeMethod);
 
-        PrivacySwitchInstantiator::$automaticSetters = $this->automaticSetters;
-
         $loader = new FixtureLoader();
+        $circlicalLoader = AliceFixtureLoader::getInstance($output);
+        $loader->addFixture($circlicalLoader);
 
-        foreach (explode(',', $input->getOption('fixtures')) as $fixtureId) {
-            $disableAutoIncrement = 0;
-            $fixtureId = preg_replace('/#/', '', $fixtureId, -1, $disableAutoIncrement);
-            $loader->addFixture(
-                AliceFixtureLoader::createFromFilepath(
-                    $fixtureId,
-                    $disableAutoIncrement,
-                    $output
-                )
-            );
+        foreach (array_reverse(explode(',', $input->getOption('fixtures'))) as $fixtureId) {
+            $output->writeln(sprintf('  <comment> -- Processing fixture file %s</comment>', $fixtureId));
+            $circlicalLoader->addFixtureId($fixtureId);
         }
 
         $executor = new ORMExecutor($this->entityManager, $purger);
