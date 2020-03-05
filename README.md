@@ -10,8 +10,8 @@ Feature: I can define fixtures from within my tests
 
   Scenario: Test loading a new fixture
     Given fixture "Application/user" is loaded
-    Given fixture "#Application/user" is loaded
-    Given fixtures "Application/user, Billing/invoices" are loaded
+    And fixture "Application/user" is loaded
+    And fixtures "Application/user, Billing/invoices" are loaded
 ```
 
 > This package adds a behavior to alice, by way of automatically falling back onto reflection
