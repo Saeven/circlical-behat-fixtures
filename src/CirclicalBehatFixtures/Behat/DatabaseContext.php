@@ -26,7 +26,7 @@ class DatabaseContext implements Context
     {
         shell_exec(
             sprintf(
-                '%sphp public/index.php orm:fixtures:load --fixtures=%s %s',
+                '%sphp public/index.php orm:fixtures:load --auto --fixtures=%s %s',
                 $this->commandPrefix ?? '',
                 $fixtureName,
                 $this->getAppendParameter()
@@ -41,7 +41,7 @@ class DatabaseContext implements Context
     {
         shell_exec(
             sprintf(
-                '%sphp public/index.php orm:fixtures:load --fixtures=%s %s',
+                '%sphp public/index.php orm:fixtures:load --auto --fixtures=%s %s',
                 $this->commandPrefix ?? '',
                 str_replace(' ', '', $csv),
                 $this->getAppendParameter()

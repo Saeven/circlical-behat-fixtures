@@ -65,13 +65,13 @@ EOT
             )
             ->addOption('fixtures', null, InputOption::VALUE_REQUIRED, 'The fixture files that we are loading, push in the fixture ID or a CSV of fixture IDs (see README.md)')
             ->addOption('append', null, InputOption::VALUE_NONE, 'Append the data fixtures instead of deleting all data from the database first.')
-            ->addOption('purge-with-truncate', null, InputOption::VALUE_NONE, 'Purge data by using a database-level TRUNCATE statement');
-
+            ->addOption('purge-with-truncate', null, InputOption::VALUE_NONE, 'Purge data by using a database-level TRUNCATE statement')
+            ->addOption('auto', null, InputOption::VALUE_NONE, 'Assume automatic mode, answer yes to all questions');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        if ($input->isInteractive() && !$input->getOption('append')
+        if (!$input->getOption('auto') && $input->isInteractive() && !$input->getOption('append')
             && !$this->askConfirmation($input, $output, '<question>Careful, database will be purged. Do you want to continue y/N ?</question>', false)) {
             return;
         }
@@ -90,9 +90,11 @@ EOT
         }
 
         $executor = new ORMExecutor($this->entityManager, $purger);
-        $executor->setLogger(static function ($message) use ($output) {
-            $output->writeln(sprintf('  <comment>></comment> <info>%s</info>', $message));
-        });
+        $executor->setLogger(
+            static function ($message) use ($output) {
+                $output->writeln(sprintf('  <comment>></comment> <info>%s</info>', $message));
+            }
+        );
         $executor->execute($loader->getFixtures(), $input->getOption('append'));
     }
 
