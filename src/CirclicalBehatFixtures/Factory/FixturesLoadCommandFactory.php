@@ -5,7 +5,7 @@ namespace CirclicalBehatFixtures\Factory;
 use Doctrine\ORM\EntityManager;
 use CirclicalBehatFixtures\Command\FixturesLoadCommand;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class FixturesLoadCommandFactory implements FactoryInterface
 {

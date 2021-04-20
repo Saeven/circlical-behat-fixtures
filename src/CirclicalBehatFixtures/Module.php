@@ -2,11 +2,11 @@
 
 namespace CirclicalBehatFixtures;
 
-use Zend\Loader\StandardAutoloader;
-use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
-use Zend\ModuleManager\Feature\ConfigProviderInterface;
-use Zend\EventManager\EventInterface;
-use Zend\ModuleManager\ModuleManager;
+use Laminas\Loader\StandardAutoloader;
+use Laminas\ModuleManager\Feature\AutoloaderProviderInterface;
+use Laminas\ModuleManager\Feature\ConfigProviderInterface;
+use Laminas\EventManager\EventInterface;
+use Laminas\ModuleManager\ModuleManager;
 use CirclicalBehatFixtures\Command\FixturesLoadCommand;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface
