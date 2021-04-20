@@ -27,7 +27,7 @@
         "laminas/laminas-loader": "2.6.*",
         "laminas/laminas-modulemanager": "2.*",
         "laminas/laminas-eventmanager": "3.*",
-        "doctrine/common": "2.11.0",
+        "doctrine/common": "2.*||3.*",
         "doctrine/orm": "^2.5||2.6.*",
         "doctrine/persistence": "@stable",
         "doctrine/doctrine-orm-module": "^1.1||2.1.*||4.*",
