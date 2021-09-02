@@ -1,4 +1,4 @@
-# Simpler Behat Fixtures for Doctrine & Zend Framework
+# Simpler Behat Fixtures for Doctrine & Laminas
 
 Trigger fixture loading from within Behat tests, like so:
 
@@ -77,11 +77,11 @@ You can stack these as you need.  The first one in a feature will auto-purge, th
 
 If you need to import the fixture in a Docker command for example, perhaps as a part of a CI/CD chain, you'll need to change where the fixture gets loaded.  In short, instead of this command:
 
-    php public/index.php orm:fixtures:load --fixture=Application/orders
+    vendor/bin/doctrine-module orm:fixtures:load --fixtures=Application/orders
 
 You might need to run something like this command:
 
-    /usr/local/bin/docker container exec -w /code -i $(docker-compose ps -q php) php public/index.php orm:fixtures:load --fixture=Application/orders
+    /usr/local/bin/docker container exec -w /code -i $(docker-compose ps -q php) php vendor/bin/doctrine-module orm:fixtures:load --fixtures=Application/orders
 
 You can achieve this by outputting a prefix into a file with name `circlical-fixtures-cmd-prefix`, e.g. in your CI/CD scripts:
 
