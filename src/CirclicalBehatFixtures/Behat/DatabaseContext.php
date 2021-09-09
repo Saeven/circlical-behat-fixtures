@@ -7,16 +7,17 @@ use Behat\Behat\Context\Context;
 class DatabaseContext implements Context
 {
     private bool $appendFixture;
-
     private string $commandPrefix;
+    private ?string $doctrineScript;
 
-    public function __construct()
+    public function __construct(string $doctrineScript = null)
     {
         $this->appendFixture = false;
         $commandPrefixFile = getcwd() . DIRECTORY_SEPARATOR . 'circlical-fixtures-cmd-prefix';
-        if (file_exists($commandPrefixFile)) {
+        if (is_file($commandPrefixFile)) {
             $this->commandPrefix = trim(file_get_contents($commandPrefixFile)) . ' ';
         }
+        $this->doctrineScript = $doctrineScript;
     }
 
     /**
@@ -26,8 +27,9 @@ class DatabaseContext implements Context
     {
         shell_exec(
             sprintf(
-                '%sphp vendor/bin/doctrine-module orm:fixtures:load --auto --fixtures=%s %s',
+                '%sphp %s orm:fixtures:load --auto --fixtures=%s %s',
                 $this->commandPrefix ?? '',
+                $this->doctrineScript ?? 'vendor/bin/doctrine-module',
                 $fixtureName,
                 $this->getAppendParameter()
             )
@@ -41,8 +43,9 @@ class DatabaseContext implements Context
     {
         shell_exec(
             sprintf(
-                '%sphp vendor/bin/doctrine-module orm:fixtures:load --auto --fixtures=%s %s',
+                '%sphp %s orm:fixtures:load --auto --fixtures=%s %s',
                 $this->commandPrefix ?? '',
+                $this->doctrineScript ?? 'vendor/bin/doctrine-module',
                 str_replace(' ', '', $csv),
                 $this->getAppendParameter()
             )
