@@ -48,6 +48,22 @@ default:
         - CirclicalBehatFixtures\Behat\DatabaseContext
 ```
 
+### Or, if you need to override the location of the Doctrine bin (where the symlink points to)
+
+```
+# behat.yml
+default:
+  autoload: [ '%paths.base%/../contexts' ]
+  suites:
+    core_features:
+      paths: [ '%paths.base%/../features' ]
+      contexts:
+        - FeatureContext
+        - CirclicalBehatFixtures\Behat\DatabaseContext
+          - vendor/doctrine/doctrine-module/bin/doctrine-module
+```
+
+
 ## Author a Fixture
 
 The syntax for fixture identification is very simple, MODULE/fixturename. Examples:
