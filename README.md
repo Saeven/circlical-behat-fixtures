@@ -59,7 +59,7 @@ default:
       paths: [ '%paths.base%/../features' ]
       contexts:
         - FeatureContext
-        - CirclicalBehatFixtures\Behat\DatabaseContext
+        - CirclicalBehatFixtures\Behat\DatabaseContext:
           - vendor/doctrine/doctrine-module/bin/doctrine-module
 ```
 
