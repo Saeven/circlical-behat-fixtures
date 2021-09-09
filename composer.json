@@ -24,7 +24,7 @@
         "php": "^7.4.0",
         "laminas/laminas-servicemanager": "^3.0",
         "laminas/laminas-mvc": "^3.0",
-        "laminas/laminas-loader": "2.6.*",
+        "laminas/laminas-loader": "@stable",
         "laminas/laminas-modulemanager": "2.*",
         "laminas/laminas-eventmanager": "3.*",
         "doctrine/common": "2.*||3.*",
