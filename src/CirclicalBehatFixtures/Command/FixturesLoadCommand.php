@@ -96,6 +96,8 @@ EOT
             }
         );
         $executor->execute($loader->getFixtures(), $input->getOption('append'));
+
+        return 0;
     }
 
     private function askConfirmation(InputInterface $input, OutputInterface $output, string $question, bool $default): bool
